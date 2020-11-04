@@ -19,7 +19,7 @@ function fbc_curation(fileName)
 
 t = tic; fprintf('Loading model from %s... ', fileName);
 model = readCbModel(fileName);
-toc;
+toc(t);
 nRxns = numel(model.rxns);
 
 dir_name = replace(model.description, '.xml', '');
