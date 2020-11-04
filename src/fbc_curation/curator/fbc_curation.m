@@ -17,6 +17,14 @@ function fbc_curation(fileName)
 % .. Authors:
 %       - Karthik Raman 2020/11/04
 
+problemTypeParams = parseSolverParameters('LP');
+solver = problemTypeParams.solver;
+if (isempty(solver))
+    error('No solver found! Please run initCobraToolbox before running fbc_curation!');
+else
+    fprintf('Using %s solver.\n', solver);
+end
+
 t = tic; fprintf('Loading model from %s... ', fileName);
 model = readCbModel(fileName);
 toc(t);
