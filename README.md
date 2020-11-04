@@ -2,7 +2,7 @@
 fbc_curation contains MATLAB/COBRA helpers for reproducibility of fbc models.
 
 ## Installation
-Just download the single script `fbc_curation.m` from the `src/curator` directory.
+Just download the single script [`fbc_curation.m` from the `src/curator` directory](https://github.com/RamanLab/fbc_curation_matlab/blob/main/src/fbc_curation/curator/fbc_curation.m).
 
 ## Example Output
 ```
