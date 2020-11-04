@@ -20,6 +20,7 @@ Single reaction deletion analysis in progress ...
 Total Elapsed time is 4.136678 seconds.
 >> 
 ```
+See the [files in `fbc_curation/examples/results/`](https://github.com/RamanLab/fbc_curation_matlab/tree/main/src/fbc_curation/examples/results) for how the output files look like.
 
 ## Acknowledgements
 
