@@ -26,7 +26,15 @@ else
 end
 
 t = tic; fprintf('Loading model from %s... ', fileName);
-model = readCbModel(fileName);
+
+%load the file
+if (extractAfter(fileName,".") == 'xml')
+        model = readCbModel(fileName);
+elseif (extractAfter(fileName,".") == 'mat')
+        updated_filename = replace(fileName, "'", '');
+        load(updated_filename);
+end
+
 toc(t);
 nRxns = numel(model.rxns);
 
