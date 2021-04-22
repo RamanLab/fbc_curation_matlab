@@ -49,6 +49,29 @@ else
     return
 end
 
+%% [00] METADATA FILE
+fname_meta = sprintf('%s/%s', dir_name, '00_metadata.json');
+fid = fopen(fname_meta,'w');
+software_name='FBC-Curation-Matlab';
+software_version = '1.0';
+Software_url='https://github.com/RamanLab/fbc_curation_matlab/';
+FID = fopen(fileName, 'r');
+S = fread(FID, inf, 'uchar=>char');
+fclose(FID);
+Model_MD5 = GetMD5(S, '8bit');
+solverName=solver;
+
+fprintf(fid, '{\n');
+fprintf(fid, '\t"software.name":\t"%s",\n', software_name);
+fprintf(fid, '\t"software.version":\t"%s",\n', software_version);
+fprintf(fid, '\t"software.url":\t"%s",\n', Software_url);
+fprintf(fid, '\t"environment":\t"%s, %s",\n', getenv('OS'), system_dependent('getwinsys'));
+fprintf(fid, '\t"model.filename":\t"%s",\n', model.description);
+fprintf(fid, '\t"model.md5":\t"%s",\n', Model_MD5);
+fprintf(fid, '\t"solver.name":\t"CobraToolBox (%s)"\n', solverName);
+fprintf(fid, '}');
+fprintf('[00] Wrote Metadata details to %s.\n', fname_meta);
+fclose(fid);
 
 %% [01] FBA
 fname_obj = sprintf('%s/%s', dir_name, '01_objective.tsv');
