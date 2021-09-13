@@ -9,11 +9,21 @@ function fbc_curation(fileName)
 %    fileName:                  COBRA model file
 %
 % OUTPUTS:
+% Creates a folder with model name as folder name, containing the below
+% files
+%    00_metadata.json:          File containing the metadata
 %    01_objective.tsv:          Computed growth rate ratio between deletion strain and wild type
 %    02_fva.tsv:                Deletion strain growth rates (1/h)
 %    03_gene_deletion.tsv:      Wild type growth rate (1/h)
 %    04_reaction_deletion.tsv:  Does a reaction deletion affect anything
 %
+% Also creates a COMBINE archive file (.zip) which is a zipped version of
+% above folder with an additional manifest.xml file
+%    manifest.xml               manifest file will be at the root of the
+%                               archive. It is an xml file containing the
+%                               list of names of all files in the archive.
+%                               It also describes each file's type and
+%                               location inside the archive
 % .. Authors:
 %       - Karthik Raman 2020/11/04
 
@@ -49,6 +59,29 @@ else
     return
 end
 
+%% [00] METADATA FILE
+fname_meta = sprintf('%s/%s', dir_name, '00_metadata.json');
+fid = fopen(fname_meta,'w');
+software_name='FBC-Curation-Matlab';
+software_version = '1.0';
+Software_url='https://github.com/RamanLab/fbc_curation_matlab/';
+FID = fopen(fileName, 'r');
+S = fread(FID, inf, 'uchar=>char');
+fclose(FID);
+Model_MD5 = GetMD5(S, '8bit');
+solverName=solver;
+
+fprintf(fid, '{\n');
+fprintf(fid, '\t"software.name":\t"%s",\n', software_name);
+fprintf(fid, '\t"software.version":\t"%s",\n', software_version);
+fprintf(fid, '\t"software.url":\t"%s",\n', Software_url);
+fprintf(fid, '\t"environment":\t"%s, %s",\n', getenv('OS'), system_dependent('getwinsys'));
+fprintf(fid, '\t"model.filename":\t"%s",\n', model.description);
+fprintf(fid, '\t"model.md5":\t"%s",\n', Model_MD5);
+fprintf(fid, '\t"solver.name":\t"CobraToolBox (%s)"\n', solverName);
+fprintf(fid, '}');
+fprintf('[00] Wrote Metadata details to %s.\n', fname_meta);
+fclose(fid);
 
 %% [01] FBA
 fname_obj = sprintf('%s/%s', dir_name, '01_objective.tsv');
@@ -110,3 +143,24 @@ end
 fclose(fid);
 fprintf('[04] Wrote gene deletion results to %s.\n', fname_rxndel);
 fprintf('Total '); toc(t);
+%% Writing Manifest file for COMBINE archive
+docNode = com.mathworks.xml.XMLUtils.createDocument('manifest');
+manifest = docNode.getDocumentElement;
+product = docNode.createElement('omexManifest');
+product.setAttribute('xmlns','http://identifiers.org/combine.specifications/omex-manifest');
+curr_node = docNode.createElement('content');
+curr_node.setAttribute('location', '.')
+curr_node.setAttribute('format', 'http://identifiers.org/combine.specifications/omex')
+product.appendChild(curr_node);
+files = {'00_metadata.json', '01_objective.tsv', '02_fva.tsv', '03_gene_deletion.tsv', '04_reaction_deletion.tsv'};
+for idx = 1:numel(files)
+    curr_node = docNode.createElement('content');
+    curr_node.setAttribute('location', [dir_name '/' files{idx}])
+    curr_node.setAttribute('format', 'https://www.ebi.ac.uk/biomodels/curation/fbc')
+    
+    product.appendChild(curr_node);
+end
+manifest.appendChild(product);
+xmlwrite('manifest.xml',docNode);
+%% Zipping the files
+zip(dir_name,{dir_name,'manifest.xml'});
