@@ -1,3 +1,6 @@
+<img title="FROG logo" src="https://github.com/RamanLab/fbc_curation_matlab/blob/main/FROG_analysis_white_BG_outline.svg" height="100">
+
+
 # fbc_curation_matlab
 fbc_curation contains MATLAB/COBRA helpers for reproducibility of fbc models.
 
