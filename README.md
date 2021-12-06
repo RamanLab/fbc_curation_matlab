@@ -2,13 +2,25 @@
 
 
 # fbc_curation_matlab
-fbc_curation contains MATLAB/COBRA helpers for reproducibility of fbc models.
+fbc_curation_matlab contains MATLAB/COBRA helpers for checking reproducibility of fbc models.
+
+## Pre-requisites
+* [CobraToolBox](https://opencobra.github.io/cobratoolbox/stable/installation.html)
+
+## Components in the repository
+* The main file for running fbc_curation in MATLAB is present in [`fbc_curation.m` from the `src/curator` directory](https://github.com/RamanLab/fbc_curation_matlab/blob/main/src/fbc_curation/curator/fbc_curation.m)
+* An additional function [GetMD5](https://in.mathworks.com/matlabcentral/fileexchange/25921-getmd5). (Copyright (c) 2017-2019, Jan Simon. All rights reserved). This is required to generate MD5 signature for model files.
 
 ## Installation
-Just download the single script [`fbc_curation.m` from the `src/curator` directory](https://github.com/RamanLab/fbc_curation_matlab/blob/main/src/fbc_curation/curator/fbc_curation.m).
+1. Clone the repository to your system.
+2. Extract the folders.
+3. Add the folders to you MATLAB path using [`addpath(path to fbc_curation_matlab)`](https://www.mathworks.com/help/matlab/ref/addpath.html)
+4. Installation is complete!
 
-Additional addon: GetMD5
-(https://in.mathworks.com/matlabcentral/fileexchange/25921-getmd5).
+## Usage
+Step 1: Initialize CobraToolBox using the command `initCobraToolbox`. fbc_curation_matlab uses functions from CobraToolBox. So it has to be initialized every time MATLAB is started. Running this command once every session is enough.
+
+Step 2: `fbc_curation(path to model)` command will start the fbc curation and the files will be available in the current directory once its done.
 
 ## Example Output
 ```
