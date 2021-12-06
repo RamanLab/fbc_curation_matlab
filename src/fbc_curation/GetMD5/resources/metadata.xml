@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<addOn>
+  <identifier>e56c6a76-4a80-11e4-9553-005056977bd0</identifier>
+  <displayType>Collection</displayType>
+  <translatedDisplayType>
+    <en_US>Collection</en_US>
+    <ja_JP>コレクション</ja_JP>
+    <ko_KR>컬렉션</ko_KR>
+    <zh_CN>集合</zh_CN>
+  </translatedDisplayType>
+  <name>GetMD5</name>
+  <author>Jan</author>
+  <version>2.1.1</version>
+  <downloadUrl>https://www.mathworks.com/matlabcentral/mlc-downloads/downloads/e56c6a76-4a80-11e4-9553-005056977bd0/dca6a820-377e-4d64-829b-213958887556/packages/zip?src=addons_ml_desktop_install&amp;profile_id=17310684&amp;license=1061615&amp;release_family=R2019b</downloadUrl>
+  <licenseUrl>https://addons.mathworks.com/registry/v1/e56c6a76-4a80-11e4-9553-005056977bd0/2.1.1.0/-/license</licenseUrl>
+  <previewImageUrl>https://www.mathworks.com/responsive_image/160/120/0/0/0/cache/matlabcentral/mlc-downloads/downloads/e56c6a76-4a80-11e4-9553-005056977bd0/dca6a820-377e-4d64-829b-213958887556/images/screenshot.png</previewImageUrl>
+  <releaseNotesUrl>https://www.mathworks.com/add-ons/e56c6a76-4a80-11e4-9553-005056977bd0/dca6a820-377e-4d64-829b-213958887556/releaseNotes</releaseNotesUrl>
+  <installationFolder>Collections</installationFolder>
+</addOn>
