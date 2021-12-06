@@ -9,7 +9,7 @@ fbc_curation_matlab contains MATLAB/COBRA helpers for checking reproducibility o
 
 ## Components in the repository
 * The main file for running fbc_curation in MATLAB is present in [`fbc_curation.m` from the `src/curator` directory](https://github.com/RamanLab/fbc_curation_matlab/blob/main/src/fbc_curation/curator/fbc_curation.m)
-* An additional function [GetMD5](https://in.mathworks.com/matlabcentral/fileexchange/25921-getmd5). (Copyright (c) 2017-2019, Jan Simon. All rights reserved). This is required to generate MD5 signature for model files.
+* An additional function [GetMD5](https://in.mathworks.com/matlabcentral/fileexchange/25921-getmd5) (Copyright (c) 2017-2019, Jan Simon). This is required to generate MD5 signature for model files.
 
 ## Installation
 1. Clone the repository to your system.
