@@ -55,7 +55,7 @@ dir_name = 'FROG';
 [success,msg,~] = mkdir(dir_name);
 
 if (success)
-    fprintf('Created directory `%s` successfully.\n', dir_name);
+    fprintf('Created directory ./%s successfully.\n', dir_name);
 else
     fprintf(2,[msg '\n']);
     return
