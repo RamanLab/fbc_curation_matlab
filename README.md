@@ -18,26 +18,35 @@ fbc_curation_matlab contains MATLAB/COBRA helpers for checking reproducibility o
 4. Installation is complete!
 
 ## Usage
-Step 1: Initialize CobraToolBox using the command `initCobraToolbox`. fbc_curation_matlab uses functions from CobraToolBox. So it has to be initialized every time MATLAB is started. Running this command once every session is enough.
+Step 1: Initialize CobraToolBox using the command 
+```
+initCobraToolbox
+```
+fbc_curation_matlab uses functions from CobraToolBox. So it has to be initialized every time MATLAB is started. Running this command once every session is enough.
 
-Step 2: `fbc_curation(path to model)` command will start the fbc curation and the files will be available in the current directory once its done.
+Step 2: Running FBC-curation
+```
+fbc_curation(path to model)
+```
+This command will start the fbc curation and FROG report files will be available in the current directory as [COMBINE archive](https://co.mbine.org/documents/archive) format. It is basically a zip file with all the report files in a specific file structure.
 
 ## Example Output
 ```
->> fbc_curation('iJR904.xml');
+>> fbc_curation('fbc_curation_matlab-main/src/fbc_curation/examples/models/iJR904.xml');
 Using glpk solver.
-Loading model from fbc-curation-project/iJR904.xml... Elapsed time is 41.577884 seconds.
-Created directory `iJR904` successfully.
-[00] Wrote Metadata details to iJR904/00_metadata.json.
-[01] Wrote FBA objective results to iJR904/01_objective.tsv.
-[02] Wrote FVA results (optPercentage = 100) to iJR904/02_fva.tsv.
+Loading model from fbc_curation_matlab-main/src/fbc_curation/examples/models/iJR904.xml... Elapsed time is 39.618113 seconds.
+Created directory ./FROG successfully.
+FROG curator name:Dinesh
+[00] Wrote Metadata details to FROG/00_metadata.json.
+[01] Wrote FBA objective results to FROG/01_objective.tsv.
+[02] Wrote FVA results (optPercentage = 100) to FROG/02_fva.tsv.
 Single gene deletion analysis in progress ...
 100%    [........................................]
-[03] Wrote gene deletion results to iJR904/03_gene_deletion.tsv.
+[03] Wrote gene deletion results to FROG/03_gene_deletion.tsv.
 Single reaction deletion analysis in progress ...
 100%    [........................................]
-[04] Wrote rxn deletion results to iJR904/04_reaction_deletion.tsv.
-Total Elapsed time is 100.817721 seconds.
+[04] Wrote gene deletion results to FROG/04_reaction_deletion.tsv.
+Total Elapsed time is 111.763478 seconds.
 >> 
 ```
 See the [files in `fbc_curation/examples/results/`](https://github.com/RamanLab/fbc_curation_matlab/tree/main/src/fbc_curation/examples/results) for how the output files look like.
