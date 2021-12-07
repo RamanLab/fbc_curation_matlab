@@ -1,9 +1,0 @@
-{
-	"software.name":	"FBC-Curation-Matlab",
-	"software.version":	"1.0",
-	"software.url":	"https://github.com/RamanLab/fbc_curation_matlab/",
-	"environment":	"Windows_NT, Version 10.0 (Build 19041)",
-	"model.filename":	"iAB_AMO1410_SARS-CoV-2.xml",
-	"model.md5":	"e38ffaca8ae5ffb39130ae7d097716ff",
-	"solver.name":	"CobraToolBox (glpk)"
-}
