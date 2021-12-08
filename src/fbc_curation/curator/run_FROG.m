@@ -1,4 +1,4 @@
-function fbc_curation(fileName)
+function run_FROG(fileName)
 % Performs FBC curation + FROG analysis on a given model
 %
 % USAGE:

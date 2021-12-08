@@ -8,7 +8,7 @@ fbc_curation_matlab contains MATLAB/COBRA helpers for checking reproducibility o
 * [CobraToolBox](https://opencobra.github.io/cobratoolbox/stable/installation.html)
 
 ## Components in the repository
-* The main file for running fbc_curation in MATLAB is present in [`fbc_curation.m` from the `src/curator` directory](https://github.com/RamanLab/fbc_curation_matlab/blob/main/src/fbc_curation/curator/fbc_curation.m)
+* The main file for running fbc_curation in MATLAB is present in [`run_FROG.m` from the `src/curator` directory](https://github.com/RamanLab/fbc_curation_matlab/blob/main/src/fbc_curation/curator/run_FROG.m)
 * An additional function [GetMD5](https://in.mathworks.com/matlabcentral/fileexchange/25921-getmd5) (Copyright (c) 2017-2019, Jan Simon). This is required to generate MD5 signature for model files.
 
 ## Installation
@@ -26,7 +26,7 @@ fbc_curation_matlab uses functions from CobraToolBox. So it has to be initialize
 
 Step 2: Running FBC-curation
 ```
-fbc_curation(path to model)
+run_FROG(path to model)
 ```
 This command will start the fbc curation and FROG report files will be available in the current directory as [COMBINE archive](https://co.mbine.org/documents/archive) format. It is basically a zip file with all the report files in a specific file structure.
 
