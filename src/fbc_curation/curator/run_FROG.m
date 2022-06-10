@@ -209,3 +209,8 @@ xmlwrite('manifest.xml',docNode);
 %% Zipping the files
 zip_file_name = replace(model.description, '.xml', '');
 zip(zip_file_name,{dir_name,'manifest.xml'});
+fprintf('Created COMBINE archive file ./%s.zip successfully.\n', zip_file_name);
+
+%% Deleting the temporary files
+rmdir(dir_name, 's')
+delete('manifest.xml')
