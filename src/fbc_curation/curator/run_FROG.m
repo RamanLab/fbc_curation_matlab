@@ -73,8 +73,7 @@ FID = fopen(fileName, 'r');
 S = fread(FID, inf, 'uchar=>char');
 fclose(FID);
 Model_MD5 = GetMD5(S, '8bit');
-% solverName=solver;
-solverName = 'glpk';
+solverName=solver;
 
 prompt = 'FROG curator name:';
 curator = input(prompt,'s');
