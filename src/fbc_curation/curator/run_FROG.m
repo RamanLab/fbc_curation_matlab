@@ -12,7 +12,7 @@ function run_FROG(fileName, curator_name)
 % OUTPUTS:
 % Creates a folder with model name as folder name, containing the below
 % files
-%    00_metadata.json:          File containing the metadata
+%    metadata.json:          File containing the metadata
 %    01_objective.tsv:          Computed growth rate ratio between deletion strain and wild type
 %    02_fva.tsv:                Deletion strain growth rates (1/h)
 %    03_gene_deletion.tsv:      Wild type growth rate (1/h)
@@ -62,7 +62,7 @@ else
 end
 
 %% [00] METADATA FILE
-fname_meta = sprintf('%s/%s', dir_name, '00_metadata.json');
+fname_meta = sprintf('%s/%s', dir_name, 'metadata.json');
 fid = fopen(fname_meta,'w');
 FROG_software_name='FBC-Curation-Matlab';
 FROG_software_version = '1.0';
