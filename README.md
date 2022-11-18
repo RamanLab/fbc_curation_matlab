@@ -28,11 +28,15 @@ Step 2: Running FBC-curation
 ```
 run_FROG(path to model)
 ```
+Step 2 with FBC Curator name
+```
+run_FROG(path to model, curator_name)
+```
 This command will start the fbc curation and FROG report files will be available in the current directory as [COMBINE archive](https://co.mbine.org/documents/archive) format. It is basically a zip file with all the report files in a specific file structure.
 
 ## Example Output
 ```
->> fbc_curation('fbc_curation_matlab-main/src/fbc_curation/examples/models/iJR904.xml');
+>> run_FROG('fbc_curation_matlab-main/src/fbc_curation/examples/models/iJR904.xml', 'Karthik Raman');
 Using glpk solver.
 Loading model from fbc_curation_matlab-main/src/fbc_curation/examples/models/iJR904.xml... Elapsed time is 39.618113 seconds.
 Created directory ./FROG successfully.
