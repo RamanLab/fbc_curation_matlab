@@ -140,7 +140,7 @@ optPercentage = 100;
 fprintf(fid, 'model\tobjective\treaction\tflux\tstatus\tminimum\tmaximum\tFracton_optimum\n');
 nRxns = numel(model.rxns);
 for k = 1:nRxns
-    fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', fileName, 'obj', model.rxns{k}, sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
+    fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', fileName, 'obj', ['R_' model.rxns{k}], sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
 end
 fprintf('[02] Wrote FVA results (optPercentage = %d) to %s.\n', optPercentage, fname_fva);
 fclose(fid);
