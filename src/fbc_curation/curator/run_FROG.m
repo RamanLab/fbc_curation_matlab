@@ -73,7 +73,8 @@ FID = fopen(fileName, 'r');
 S = fread(FID, inf, 'uchar=>char');
 fclose(FID);
 Model_MD5 = GetMD5(S, '8bit');
-solverName=solver;
+% solverName=solver;
+solverName = 'glpk';
 
 prompt = 'FROG curator name:';
 curator = input(prompt,'s');
@@ -112,22 +113,22 @@ sol = optimizeCbModel(model);
 % Finding the status of the solution
 switch sol.stat
     case 0
-        status = 'Infeasible problem';
+        status = 'infeasible problem';
     case 1
-        status = 'Optimal';
+        status = 'optimal';
     case 2
-        status = 'Unbounded solution';
+        status = 'unbounded solution';
     case 3
-        status = 'Almost optimal solution';
+        status = 'almost optimal solution';
     case -1
-        status = 'Some other problem';
+        status = 'some other problem';
 end
 
 fprintf(fid, 'model\tobjective\tstatus\tvalue\n');
 if (nnz(model.c) > 1)
     error('Model does not have a single objective reaction.');
 end
-fprintf(fid, '%s\t%s\t%s\t%f\n', fileName, model.rxnNames{model.c~=0}, status, sol.f);
+fprintf(fid, '%s\t%s\t%s\t%f\n', fileName, 'obj', status, sol.f);
 fprintf('[01] Wrote FBA objective results to %s.\n', fname_obj);
 fclose(fid);
 
