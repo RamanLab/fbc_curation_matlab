@@ -1,12 +1,13 @@
-function run_FROG(fileName)
+function run_FROG(fileName, curator_name)
 % Performs FBC curation + FROG analysis on a given model
 %
 % USAGE:
 %
-%    fbc_curation(fileName)
+%    fbc_curation(fileName, curator_name)
 %
 % INPUT:
 %    fileName:                  COBRA model file
+%    curator_name:              optional, character array
 %
 % OUTPUTS:
 % Creates a folder with model name as folder name, containing the below
@@ -75,13 +76,14 @@ fclose(FID);
 Model_MD5 = GetMD5(S, '8bit');
 solverName=solver;
 
-prompt = 'FROG curator name:';
-curator = input(prompt,'s');
+if ~exist('curator_name','var')
+    curator_name = '';
+end
 
 fprintf(fid, '{\n');
 fprintf(fid, '\t"FROG_date":\t"%s",\n', date);
 fprintf(fid, '\t"FROG_version":\t"%s",\n', '1.0');
-fprintf(fid, '\t"FROG_curators":\t"%s",\n', curator);
+fprintf(fid, '\t"FROG_curators":\t"%s",\n', curator_name);
 fprintf(fid, '"FROG_software":{\n');
 fprintf(fid, '\t"name":\t"%s",\n', FROG_software_name);
 fprintf(fid, '\t"version":\t"%s",\n', FROG_software_version);
@@ -124,8 +126,8 @@ switch sol.stat
 end
 
 fprintf(fid, 'model\tobjective\tstatus\tvalue\n');
-if (nnz(model.c) > 1)
-    error('Model does not have a single objective reaction.');
+if (nnz(model.c) == 0)
+    error('Model does not have an objective reaction.');
 end
 fprintf(fid, '%s\t%s\t%s\t%f\n', fileName, 'obj', status, sol.f);
 fprintf('[01] Wrote FBA objective results to %s.\n', fname_obj);
