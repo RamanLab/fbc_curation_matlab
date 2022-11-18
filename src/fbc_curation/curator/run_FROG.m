@@ -139,7 +139,7 @@ fid = fopen(fname_fva,'w');
 optPercentage = 100;
 [minFlux, maxFlux] = fluxVariability(model, optPercentage);
 
-fprintf(fid, 'model\tobjective\treaction\tflux\tstatus\tminimum\tmaximum\tFracton_optimum\n');
+fprintf(fid, 'model\tobjective\treaction\tflux\tstatus\tminimum\tmaximum\tfraction_optimum\n');
 nRxns = numel(model.rxns);
 for k = 1:nRxns
     fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', fileName, 'obj', ['R_' model.rxns{k}], sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
