@@ -38,6 +38,9 @@ end
 
 t = tic; fprintf('Loading model from %s... ', fileName);
 
+%Getting file name from the path
+exact_file_name = split(fileName, '\');
+
 %load the file
 if (extractAfter(fileName,".") == 'xml')
         model = readCbModel(fileName);
@@ -87,12 +90,12 @@ fprintf(fid, '\t"FROG_curators":\t"%s",\n', curator_name);
 fprintf(fid, '"FROG_software":{\n');
 fprintf(fid, '\t"name":\t"%s",\n', FROG_software_name);
 fprintf(fid, '\t"version":\t"%s",\n', FROG_software_version);
-fprintf(fid, '\t"url":\t"%s",\n', FROG_software_url);
+fprintf(fid, '\t"url":\t"%s"\n', FROG_software_url);
 fprintf(fid, '},\n');
 fprintf(fid, '"software":{\n');
 fprintf(fid, '\t"name":\t"%s",\n', software_name);
 fprintf(fid, '\t"version":\t"%s",\n', software_version);
-fprintf(fid, '\t"url":\t"%s",\n', software_url);
+fprintf(fid, '\t"url":\t"%s"\n', software_url);
 fprintf(fid, '},\n');
 fprintf(fid, '"solver":{\n');
 fprintf(fid, '\t"name":\t"%s",\n', solverName);
@@ -100,7 +103,7 @@ fprintf(fid, '\t"url":\t"Null"\n');
 fprintf(fid, '},\n');
 fprintf(fid, '\t"model.filename":\t"%s",\n', model.description);
 fprintf(fid, '\t"model.md5":\t"%s",\n', Model_MD5);
-fprintf(fid, '\t"environment":\t"%s, %s",\n', getenv('OS'), system_dependent('getwinsys'));
+fprintf(fid, '\t"environment":\t"%s, %s"\n', getenv('OS'), system_dependent('getwinsys'));
 fprintf(fid, '}');
 fprintf('[00] Wrote Metadata details to %s.\n', fname_meta);
 fclose(fid);
@@ -129,7 +132,7 @@ fprintf(fid, 'model\tobjective\tstatus\tvalue\n');
 if (nnz(model.c) == 0)
     error('Model does not have an objective reaction.');
 end
-fprintf(fid, '%s\t%s\t%s\t%f\n', fileName, 'obj', status, sol.f);
+fprintf(fid, '%s\t%s\t%s\t%f\n', exact_file_name{end}, 'obj', status, sol.f);
 fprintf('[01] Wrote FBA objective results to %s.\n', fname_obj);
 fclose(fid);
 
@@ -142,7 +145,7 @@ optPercentage = 100;
 fprintf(fid, 'model\tobjective\treaction\tflux\tstatus\tminimum\tmaximum\tfraction_optimum\n');
 nRxns = numel(model.rxns);
 for k = 1:nRxns
-    fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', fileName, 'obj', ['R_' model.rxns{k}], sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
+    fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', exact_file_name{end}, 'obj', ['R_' model.rxns{k}], sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
 end
 fprintf('[02] Wrote FVA results (optPercentage = %d) to %s.\n', optPercentage, fname_fva);
 fclose(fid);
@@ -156,9 +159,9 @@ nGenes = numel(model.genes);
 fprintf(fid, 'model\tobjective\tgene\tstatus\tvalue\n');
 for k = 1:nGenes
     if (~isnan(grRateKO(k)))
-        fprintf(fid, '%s\t%s\tG_%s\t%s\t%f\n', fileName, 'obj', model.genes{k}, 'optimal', grRateKO(k));
+        fprintf(fid, '%s\t%s\tG_%s\t%s\t%f\n', exact_file_name{end}, 'obj', model.genes{k}, 'optimal', grRateKO(k));
     else
-        fprintf(fid, '%s\t%s\tG_%s\t%s\t%f\n', fileName, 'obj', model.genes{k}, 'infeasible', grRateKO(k));
+        fprintf(fid, '%s\t%s\tG_%s\t%s\t%f\n', exact_file_name{end}, 'obj', model.genes{k}, 'infeasible', grRateKO(k));
     end
 end
 fprintf('[03] Wrote gene deletion results to %s.\n', fname_genedel);
@@ -172,9 +175,9 @@ fid = fopen(fname_rxndel,'w');
 fprintf(fid, 'model\tobjective\treaction\tstatus\tvalue\n');
 for k = 1:nRxns
     if (~isnan(grRateKO(k)))
-        fprintf(fid, '%s\t%s\tR_%s\t%s\t%f\n', fileName, 'obj', model.rxns{k}, 'optimal', grRateKO(k));
+        fprintf(fid, '%s\t%s\tR_%s\t%s\t%f\n', exact_file_name{end}, 'obj', model.rxns{k}, 'optimal', grRateKO(k));
     else
-        fprintf(fid, '%s\t%s\tR_%s\t%s\t%f\n', fileName, 'obj', model.rxns{k}, 'infeasible', grRateKO(k));
+        fprintf(fid, '%s\t%s\tR_%s\t%s\t%f\n', exact_file_name{end}, 'obj', model.rxns{k}, 'infeasible', grRateKO(k));
     end
 end
 fclose(fid);
