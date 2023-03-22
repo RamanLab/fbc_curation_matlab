@@ -64,6 +64,15 @@ else
     return
 end
 
+%Copying model file into FROG folder
+[status,msg,~] = copyfile(fileName, dir_name);
+
+if (status)
+    fprintf('%s file copied into directory ./%s successfully.\n', fileName, dir_name);
+else
+    fprintf(2,[msg '\n']);
+    return
+end
 %% [00] METADATA FILE
 fname_meta = sprintf('%s/%s', dir_name, 'metadata.json');
 fid = fopen(fname_meta,'w');
@@ -193,11 +202,17 @@ curr_node.setAttribute('location', '.')
 curr_node.setAttribute('format', 'https://identifiers.org/combine.specifications:omex')
 product.appendChild(curr_node);
 curr_node = docNode.createElement('content');
+curr_node.setAttribute('location', ['./' fileName])
+curr_node.setAttribute('format', 'https://identifiers.org/combine.specifications:sbml')
+curr_node.setAttribute('master', 'True')
+product.appendChild(curr_node);
+curr_node = docNode.createElement('content');
 curr_node.setAttribute('location', './manifest.xml')
 curr_node.setAttribute('format', 'https://identifiers.org/combine.specifications:omex-manifest')
 product.appendChild(curr_node);
 files = {'metadata.json', '01_objective.tsv', '02_fva.tsv', '03_gene_deletion.tsv', '04_reaction_deletion.tsv'};
-formats = {'https://identifiers.org/combine.specifications:frog-metadata-version-1' ...
+formats = { ...
+    'https://identifiers.org/combine.specifications:frog-metadata-version-1' ...
     'https://identifiers.org/combine.specifications:frog-objective-version-1' ...
     'https://identifiers.org/combine.specifications:frog-fva-version-1' ...
     'https://identifiers.org/combine.specifications:frog-genedeletion-version-1' ...
@@ -206,7 +221,6 @@ for idx = 1:numel(files)
     curr_node = docNode.createElement('content');
     curr_node.setAttribute('location', ['./' dir_name '/' files{idx}])
     curr_node.setAttribute('format', formats{idx})
-    
     product.appendChild(curr_node);
 end
 manifest.appendChild(product);
@@ -216,6 +230,15 @@ zip_file_name = replace(model.description, '.xml', '');
 zip(zip_file_name,{dir_name,'manifest.xml'});
 fprintf('Created COMBINE archive file ./%s.zip successfully.\n', zip_file_name);
 
+%% Renaming the zip archive to omex archive
+[rename_status,msg,~] = movefile([zip_file_name, '.zip'], [zip_file_name, '.omex']);
+
+if (rename_status)
+    fprintf('%s file renamed to ./%s successfully.\n', [zip_file_name, '.zip'], [zip_file_name, '.omex']);
+else
+    fprintf(2,[msg '\n']);
+    return
+end
 %% Deleting the temporary files
 rmdir(dir_name, 's')
 delete('manifest.xml')
