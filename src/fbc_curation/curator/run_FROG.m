@@ -64,15 +64,6 @@ else
     return
 end
 
-%Copying model file into FROG folder
-[status,msg,~] = copyfile(fileName, dir_name);
-
-if (status)
-    fprintf('%s file copied into directory ./%s successfully.\n', fileName, dir_name);
-else
-    fprintf(2,[msg '\n']);
-    return
-end
 %% [00] METADATA FILE
 fname_meta = sprintf('%s/%s', dir_name, 'metadata.json');
 fid = fopen(fname_meta,'w');
@@ -227,7 +218,7 @@ manifest.appendChild(product);
 xmlwrite('manifest.xml',docNode);
 %% Zipping the files
 zip_file_name = replace(model.description, '.xml', '');
-zip(zip_file_name,{dir_name,'manifest.xml'});
+zip(zip_file_name,{dir_name,'manifest.xml',fileName});
 fprintf('Created COMBINE archive file ./%s.zip successfully.\n', zip_file_name);
 
 %% Renaming the zip archive to omex archive
