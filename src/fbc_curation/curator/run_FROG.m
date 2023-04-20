@@ -1,4 +1,4 @@
-function run_FROG(fileName, curator_name)
+function run_FROG(fileName, curator_name, objective_name)
 % Performs FBC curation + FROG analysis on a given model
 %
 % USAGE:
@@ -8,6 +8,7 @@ function run_FROG(fileName, curator_name)
 % INPUT:
 %    fileName:                  COBRA model file
 %    curator_name:              optional, character array
+%    objective_name:            optional, name given to the objective (default: 'obj')
 %
 % OUTPUTS:
 % Creates a folder with model name as folder name, containing the below
@@ -132,7 +133,12 @@ fprintf(fid, 'model\tobjective\tstatus\tvalue\n');
 if (nnz(model.c) == 0)
     error('Model does not have an objective reaction.');
 end
-fprintf(fid, '%s\t%s\t%s\t%f\n', exact_file_name{end}, model.rxns{model.c~=0}, status, sol.f);
+
+if ~exist('objective_name','var')
+    objective_name = 'obj';
+end
+
+fprintf(fid, '%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, status, sol.f);
 fprintf('[01] Wrote FBA objective results to %s.\n', fname_obj);
 fclose(fid);
 
@@ -145,12 +151,12 @@ optPercentage = 100;
 fprintf(fid, 'model\tobjective\treaction\tflux\tstatus\tminimum\tmaximum\tfraction_optimum\n');
 nRxns = numel(model.rxns);
 for k = 1:nRxns
-    fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', exact_file_name{end}, model.rxns{model.c~=0}, ['R_' model.rxns{k}], sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
+    fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', exact_file_name{end}, objective_name, model.rxns{k}, sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
 end
 fprintf('[02] Wrote FVA results (optPercentage = %d) to %s.\n', optPercentage, fname_fva);
 fclose(fid);
 
-%% [03] Reaction deletion results 
+%% [03] Gene deletion results 
 fname_genedel = sprintf('%s/%s', dir_name, '03_gene_deletion.tsv');
 fid = fopen(fname_genedel,'w');
 [grRatio, grRateKO, grRateWT, hasEffect] = singleGeneDeletion(model);
@@ -159,15 +165,15 @@ nGenes = numel(model.genes);
 fprintf(fid, 'model\tobjective\tgene\tstatus\tvalue\n');
 for k = 1:nGenes
     if (~isnan(grRateKO(k)))
-        fprintf(fid, '%s\t%s\tG_%s\t%s\t%f\n', exact_file_name{end}, model.rxns{model.c~=0}, model.genes{k}, 'optimal', grRateKO(k));
+        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, model.genes{k}, 'optimal', grRateKO(k));
     else
-        fprintf(fid, '%s\t%s\tG_%s\t%s\t%f\n', exact_file_name{end}, model.rxns{model.c~=0}, model.genes{k}, 'infeasible', grRateKO(k));
+        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, model.genes{k}, 'infeasible', grRateKO(k));
     end
 end
 fprintf('[03] Wrote gene deletion results to %s.\n', fname_genedel);
 fclose(fid);
 
-%% [04] Gene deletion results 
+%% [04] Reaction deletion results 
 fname_rxndel = sprintf('%s/%s', dir_name, '04_reaction_deletion.tsv');
 fid = fopen(fname_rxndel,'w');
 [grRatio, grRateKO, grRateWT, hasEffect] = singleRxnDeletion(model);
@@ -175,9 +181,9 @@ fid = fopen(fname_rxndel,'w');
 fprintf(fid, 'model\tobjective\treaction\tstatus\tvalue\n');
 for k = 1:nRxns
     if (~isnan(grRateKO(k)))
-        fprintf(fid, '%s\t%s\tR_%s\t%s\t%f\n', exact_file_name{end}, model.rxns{model.c~=0}, model.rxns{k}, 'optimal', grRateKO(k));
+        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, model.rxns{k}, 'optimal', grRateKO(k));
     else
-        fprintf(fid, '%s\t%s\tR_%s\t%s\t%f\n', exact_file_name{end}, model.rxns{model.c~=0}, model.rxns{k}, 'infeasible', grRateKO(k));
+        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, model.rxns{k}, 'infeasible', grRateKO(k));
     end
 end
 fclose(fid);
