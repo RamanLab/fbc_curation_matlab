@@ -52,6 +52,7 @@ Single reaction deletion analysis in progress ...
 [04] Wrote gene deletion results to FROG/04_reaction_deletion.tsv.
 Total Elapsed time is 111.763478 seconds.
 Created COMBINE archive file ./iJR904.zip successfully.
+iJR904.zip file renamed to ./iJR904.omex successfully.
 >> 
 ```
 See the [files in `fbc_curation/examples/results/`](https://github.com/RamanLab/fbc_curation_matlab/tree/main/src/fbc_curation/examples/results) for how the output files look like.
