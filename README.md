@@ -14,7 +14,7 @@ fbc_curation_matlab contains MATLAB/COBRA helpers for checking reproducibility o
 ## Installation
 1. Clone the repository to your system.
 2. Extract the folders.
-3. Add the folders to you MATLAB path using [`addpath(path to fbc_curation_matlab)`](https://www.mathworks.com/help/matlab/ref/addpath.html)
+3. Add the folders to you MATLAB path using [`addpath(genpath(path to fbc_curation_matlab))`](https://www.mathworks.com/help/matlab/ref/addpath.html)
 4. Installation is complete!
 
 ## Usage
@@ -40,7 +40,7 @@ This command will start the fbc curation and FROG report files will be available
 Using glpk solver.
 Loading model from fbc_curation_matlab-main/src/fbc_curation/examples/models/iJR904.xml... Elapsed time is 39.618113 seconds.
 Created directory ./FROG successfully.
-FROG curator name:Dinesh
+FROG curator name:Karthik Raman
 [00] Wrote Metadata details to FROG/00_metadata.json.
 [01] Wrote FBA objective results to FROG/01_objective.tsv.
 [02] Wrote FVA results (optPercentage = 100) to FROG/02_fva.tsv.
