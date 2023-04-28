@@ -45,11 +45,23 @@ exact_file_name = split(fileName, '\');
 %load the file
 if (extractAfter(fileName,".") == 'xml')
         model = readCbModel(fileName);
+        modelSBML = TranslateSBML(fileName,0,0,[1 1]);
+        sbmlReactions = modelSBML.reaction;
+        sbmlReactionids = columnVector({sbmlReactions.id});
+        sbmlGeneids = columnVector({modelSBML.fbc_geneProduct.fbc_id});
+        if ~exist('objective_name','var')
+            objective_name = modelSBML.fbc_activeObjective;
+        end
 elseif (extractAfter(fileName,".") == 'mat')
         updated_filename = replace(fileName, "'", '');
         data = load(updated_filename);
         varname = fieldnames(data);
         model = data.(varname{1});
+        sbmlReactionids = model.rxns;
+        sbmlGeneids = model.genes;
+        if ~exist('objective_name','var')
+            objective_name = 'obj';
+        end
 end
 
 toc(t);
@@ -136,10 +148,6 @@ if (nnz(model.c) == 0)
     error('Model does not have an objective reaction.');
 end
 
-if ~exist('objective_name','var')
-    objective_name = 'obj';
-end
-
 fprintf(fid, '%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, status, sol.f);
 fprintf('[01] Wrote FBA objective results to %s.\n', fname_obj);
 fclose(fid);
@@ -153,7 +161,7 @@ optPercentage = 100;
 fprintf(fid, 'model\tobjective\treaction\tflux\tstatus\tminimum\tmaximum\tfraction_optimum\n');
 nRxns = numel(model.rxns);
 for k = 1:nRxns
-    fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', exact_file_name{end}, objective_name, model.rxns{k}, sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
+    fprintf(fid, '%s\t%s\t%s\t%f\t%s\t%f\t%f\t%f\n', exact_file_name{end}, objective_name, sbmlReactionids{k}, sol.x(k), 'optimal', minFlux(k), maxFlux(k), optPercentage/100);
 end
 fprintf('[02] Wrote FVA results (optPercentage = %d) to %s.\n', optPercentage, fname_fva);
 fclose(fid);
@@ -167,9 +175,9 @@ nGenes = numel(model.genes);
 fprintf(fid, 'model\tobjective\tgene\tstatus\tvalue\n');
 for k = 1:nGenes
     if (~isnan(grRateKO(k)))
-        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, model.genes{k}, 'optimal', grRateKO(k));
+        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, sbmlGeneids{k}, 'optimal', grRateKO(k));
     else
-        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, model.genes{k}, 'infeasible', grRateKO(k));
+        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, sbmlGeneids{k}, 'infeasible', grRateKO(k));
     end
 end
 fprintf('[03] Wrote gene deletion results to %s.\n', fname_genedel);
@@ -183,9 +191,9 @@ fid = fopen(fname_rxndel,'w');
 fprintf(fid, 'model\tobjective\treaction\tstatus\tvalue\n');
 for k = 1:nRxns
     if (~isnan(grRateKO(k)))
-        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, model.rxns{k}, 'optimal', grRateKO(k));
+        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, sbmlReactionids{k}, 'optimal', grRateKO(k));
     else
-        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, model.rxns{k}, 'infeasible', grRateKO(k));
+        fprintf(fid, '%s\t%s\t%s\t%s\t%f\n', exact_file_name{end}, objective_name, sbmlReactionids{k}, 'infeasible', grRateKO(k));
     end
 end
 fclose(fid);
