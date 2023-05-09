@@ -34,6 +34,30 @@ run_FROG(path to model, curator_name)
 ```
 This command will start the fbc curation and FROG report files will be available in the current directory as [COMBINE archive](https://co.mbine.org/documents/archive) format. It is basically a zip file with all the report files in a specific file structure.
 
+## Verify installation
+To make sure if the tool is installed properly, run the following command.
+```
+run_FROG(path to fbc_curation_matlab/src/fbc_curation/examples/models/e_coli_core.xml)
+```
+If the command runs and give the following output without any error. The installation is successfull.
+```
+Using gurobi solver.
+Loading model from e_coli_core.xml... Elapsed time is 3.178258 seconds.
+Created directory ./FROG successfully.
+[00] Wrote Metadata details to FROG/metadata.json.
+[01] Wrote FBA objective results to FROG/01_objective.tsv.
+[02] Wrote FVA results (optPercentage = 100) to FROG/02_fva.tsv.
+Single gene deletion analysis in progress ...
+100%    [........................................]
+[03] Wrote gene deletion results to FROG/03_gene_deletion.tsv.
+Single reaction deletion analysis in progress ...
+100%    [........................................]
+[04] Wrote gene deletion results to FROG/04_reaction_deletion.tsv.
+Total Elapsed time is 4.759139 seconds.
+Created COMBINE archive file ./e_coli_core.zip successfully.
+e_coli_core.zip file renamed to ./e_coli_core.omex successfully.
+```
+
 ## Example Output
 ```
 >> run_FROG('fbc_curation_matlab-main/src/fbc_curation/examples/models/iJR904.xml', 'Karthik Raman');
