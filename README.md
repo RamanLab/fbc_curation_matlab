@@ -81,6 +81,9 @@ iJR904.zip file renamed to ./iJR904.omex successfully.
 ```
 See the [files in `fbc_curation/examples/results/`](https://github.com/RamanLab/fbc_curation_matlab/tree/main/src/fbc_curation/examples/results) for how the output files look like.
 
+## Possible minor issues and troubleshooting
+* In macos systems, you might encounter some security prompts saying 'The system cannot open GetMD5.mexmaci64 file as the devoluper is unknown'. This can be solved by going into System preferences > Security & Privacy > General tab > allow the GetMD5.mexmaci64 file in 'allow apps downloaded from' section. Now, running the `run_FROG` will generate the output successfully.
+
 ## License
 
 * [LGPLv3](http://opensource.org/licenses/LGPL-3.0)
