@@ -46,11 +46,14 @@ exact_file_name = split(fileName, '\');
 if (extractAfter(fileName,".") == 'xml')
         model = readCbModel(fileName);
         modelSBML = TranslateSBML(fileName,0,0,[1 1]);
-        sbmlReactions = modelSBML.reaction;
-        sbmlReactionids = columnVector({sbmlReactions.id});
-        sbmlGeneids = columnVector({modelSBML.fbc_geneProduct.fbc_id});
+        %sbmlReactions = modelSBML.reaction;
+        %sbmlReactionids = columnVector({sbmlReactions.id});
+        sbmlReactionids = model.rxns;
+        %sbmlGeneids = columnVector({modelSBML.fbc_geneProduct.fbc_id});
+        sbmlGeneids = model.genes;
         if ~exist('objective_name','var')
-            objective_name = modelSBML.fbc_activeObjective;
+            %objective_name = modelSBML.fbc_activeObjective;
+            objective_name = 'obj';
         end
 elseif (extractAfter(fileName,".") == 'mat')
         updated_filename = replace(fileName, "'", '');
